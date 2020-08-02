@@ -4,6 +4,11 @@ import "testing"
 
 const SMS_URL = "https://api.sandbox.africastalking.com/version1/messaging"
 
+// func TestPostClientCreated(t *testing.T) {
+// 	client := BasicPostClient(SMS_URL)
+
+// }
+
 func TestSandboxOrProd(t *testing.T) {
 	cases := []struct {
 		prod      bool
