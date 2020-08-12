@@ -2,8 +2,6 @@ package africastalking
 
 import "testing"
 
-const SMS_URL = "https://api.sandbox.africastalking.com/version1/messaging"
-
 // func TestPostClientCreated(t *testing.T) {
 // 	client := BasicPostClient(SMS_URL)
 
@@ -14,13 +12,13 @@ func TestSandboxOrProd(t *testing.T) {
 		prod      bool
 		url, want string
 	}{
-		{false, SMS_URL, "https://api.sandbox.africastalking.com/version1/messaging"},
+		{false, SMS_URL, SMS_URL},
 		{true, SMS_URL, "https://api.africastalking.com/version1/messaging"},
 	}
-	for _, val := range cases {
+	for i, val := range cases {
 		got := SetUrl(val.prod, val.url)
 		if got != val.want {
-			t.Errorf("SetUrl(%v, %q) == %q, want %q", val.prod, val.url, got, val.want)
+			t.Errorf("Test %v:\nSetUrl(%v, %q) == %q, want %q", i, val.prod, val.url, got, val.want)
 		}
 	}
 }

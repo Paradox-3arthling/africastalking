@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+const SMS_URL = "https://api.sandbox.africastalking.com/version1/messaging"
+
 func SetUrl(prod bool, url string) string {
 	if prod {
 		return strings.Replace(url, "sandbox.", "", 1)
