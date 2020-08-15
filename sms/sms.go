@@ -12,15 +12,16 @@ import (
 
 // check how `json.Marshal/1` marshals arrays
 type Request_data struct {
-	Username             string   `json:"username,omitempty"`
-	PhoneNumbers         []string `json:"phoneNumbers,omitempty"`
-	Message              string   `json:"message,omitempty"`
-	From                 string   `json:"senderId,omitempty"`
-	BulkSMSMode          int      `json:"bulkSMSMode,omitempty"`
-	Enqueue              int      `json:"enqueue,omitempty"`
-	Keyword              string   `json:"keyword,omitempty"`
-	LinkId               string   `json:"linkId,omitempty"`
-	RetryDurationInHours int      `json:"retryDurationInHours,omitempty"`
+	Prod                 bool
+	Username             string   `username`
+	To                   []string `to`
+	Message              string   `message`
+	From                 string   `from`
+	BulkSMSMode          int      `bulkSMSMode`
+	Enqueue              int      `enqueue`
+	Keyword              string   `keyword`
+	LinkId               string   `linkId`
+	RetryDurationInHours int      `retryDurationInHours`
 }
 
 // Need to confirm that the nos. are valid
@@ -28,7 +29,7 @@ func (req_data *Request_data) ConfirmFields() error {
 	if req_data.Username == "" {
 		return fmt.Errorf("`ConfirmFields` got `req_data.Username` is blank!")
 	}
-	if len(req_data.PhoneNumbers) == 0 {
+	if len(req_data.To) == 0 {
 		return fmt.Errorf("`ConfirmFields` got `req_data.To` has no numbers to send to!")
 	}
 	if req_data.Message == "" {
@@ -39,7 +40,9 @@ func (req_data *Request_data) ConfirmFields() error {
 
 func (req_data *Request_data) encodeValues() string {
 	data := url.Values{}
-	data.Set("", "")
+
+	data.Set("username", req_data.Username)
+	data.Set("username", req_data.Message)
 
 	return data.Encode()
 }
@@ -48,7 +51,8 @@ func setValue(data *url.Values, value string) {
 }
 
 // Return data at final func
-func (req_data *Request_data) SendSMS(prod bool) error {
+func (req_data *Request_data) SendSMS() error {
+	prod := req_data.Prod
 	if prod == false {
 		req_data.Username = "sandbox"
 	}
