@@ -1,11 +1,11 @@
 package sms
 
 import (
-	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strings"
 
 	"github.com/paradox-3arthling/africastalking"
 )
@@ -13,15 +13,24 @@ import (
 // check how `json.Marshal/1` marshals arrays
 type Request_data struct {
 	Prod                 bool
-	Username             string   `username`
-	To                   []string `to`
-	Message              string   `message`
-	From                 string   `from`
-	BulkSMSMode          int      `bulkSMSMode`
-	Enqueue              int      `enqueue`
-	Keyword              string   `keyword`
-	LinkId               string   `linkId`
-	RetryDurationInHours int      `retryDurationInHours`
+	Username             string   //`username`
+	To                   []string //`to`
+	Message              string   //`message`
+	From                 string   //`from`
+	BulkSMSMode          int      //`bulkSMSMode`
+	Enqueue              int      //`enqueue`
+	Keyword              string   //`keyword`
+	LinkId               string   //`linkId`
+	RetryDurationInHours int      //`retryDurationInHours`
+}
+
+func (req_data *Request_data) encodeValues() []byte {
+	data := url.Values{}
+	data.Set("username", req_data.Username)
+	data.Set("message", req_data.Message)
+	data.Set("to", strings.Join(req_data.To, ","))
+
+	return []byte(data.Encode())
 }
 
 // Need to confirm that the nos. are valid
@@ -38,18 +47,6 @@ func (req_data *Request_data) ConfirmFields() error {
 	return nil
 }
 
-func (req_data *Request_data) encodeValues() string {
-	data := url.Values{}
-
-	data.Set("username", req_data.Username)
-	data.Set("username", req_data.Message)
-
-	return data.Encode()
-}
-func setValue(data *url.Values, value string) {
-
-}
-
 // Return data at final func
 func (req_data *Request_data) SendSMS() error {
 	prod := req_data.Prod
@@ -60,10 +57,11 @@ func (req_data *Request_data) SendSMS() error {
 	if err != nil {
 		return fmt.Errorf("'req_data.ConfirmFields/0' got the error: %q", err)
 	}
-	data, err := json.Marshal(req_data)
-	if err != nil {
-		return fmt.Errorf("'json.Marshal/1' got the error: %q", err)
-	}
+	// data, err := json.Marshal(req_data)
+	// if err != nil {
+	// 	return fmt.Errorf("'json.Marshal/1' got the error: %q", err)
+	// }
+	data := req_data.encodeValues()
 	url := africastalking.SetUrl(prod, africastalking.SMS_URL)
 	req, err := africastalking.JsonRequest(url, "", data)
 	if err != nil {
