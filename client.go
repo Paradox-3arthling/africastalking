@@ -25,7 +25,7 @@ func JsonRequest(url, api_key string, data []byte) (*http.Request, error) {
 		return req, fmt.Errorf("'http.NewRequest/3' got the error: %q", err)
 	}
 	req.Header.Add("Accept", "application/json")
-	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Add("apiKey", api_key)
 	return req, nil
 }
