@@ -13,6 +13,7 @@ import (
 // check how `json.Marshal/1` marshals arrays
 type Request_data struct {
 	Prod                 bool
+	Api_key              string
 	Username             string   //`username`
 	To                   []string //`to`
 	Message              string   //`message`
@@ -63,7 +64,7 @@ func (req_data *Request_data) SendSMS() error {
 	// }
 	data := req_data.encodeValues()
 	url := africastalking.SetUrl(prod, africastalking.SMS_URL)
-	req, err := africastalking.JsonRequest(url, "", data)
+	req, err := africastalking.EncodedRequest(url, req_data.Api_key, data)
 	if err != nil {
 		return fmt.Errorf("'africastalking.JsonRequest/3' got the error: %q", err)
 	}

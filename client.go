@@ -19,7 +19,7 @@ func SetUrl(prod bool, url string) string {
 
 // BasicPostClient/1 - Created client will be dealing with
 // json only.
-func JsonRequest(url, api_key string, data []byte) (*http.Request, error) {
+func EncodedRequest(url, api_key string, data []byte) (*http.Request, error) {
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(data))
 	if err != nil {
 		return req, fmt.Errorf("'http.NewRequest/3' got the error: %q", err)
