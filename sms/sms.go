@@ -28,10 +28,25 @@ type Request_data struct {
 func (req_data *Request_data) encodeValues() []byte {
 	data := url.Values{}
 	data.Set("username", req_data.Username)
-	data.Set("message", req_data.Message)
 	data.Set("to", strings.Join(req_data.To, ","))
-
+	data.Set("message", req_data.Message)
+	setDataStr(&data, req_data.From, "from")
+	setDataInt(&data, req_data.BulkSMSMode, "bulkSMSMode")
+	setDataInt(&data, req_data.Enqueue, "enqueue")
+	setDataStr(&data, req_data.Keyword, "keyword")
+	setDataStr(&data, req_data.LinkId, "linkId")
+	setDataInt(&data, req_data.RetryDurationInHours, "retryDurationInHours")
 	return []byte(data.Encode())
+}
+func setDataStr(data *url.Values, val, key string) {
+	if val != "" {
+		data.Set(key, val)
+	}
+}
+func setDataInt(data *url.Values, val int, key string) {
+	if val != 0 {
+		data.Set(key, string(val))
+	}
 }
 
 // Need to confirm that the nos. are valid
@@ -58,10 +73,6 @@ func (req_data *Request_data) SendSMS() error {
 	if err != nil {
 		return fmt.Errorf("'req_data.ConfirmFields/0' got the error: %q", err)
 	}
-	// data, err := json.Marshal(req_data)
-	// if err != nil {
-	// 	return fmt.Errorf("'json.Marshal/1' got the error: %q", err)
-	// }
 	data := req_data.encodeValues()
 	url := africastalking.SetUrl(prod, africastalking.SMS_URL)
 	req, err := africastalking.EncodedRequest(url, req_data.Api_key, data)
