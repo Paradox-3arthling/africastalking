@@ -8,6 +8,7 @@ import (
 )
 
 const SMS_URL = "https://api.sandbox.africastalking.com/version1/messaging"
+const INBOX_URL = "https://api.sandbox.africastalking.com/version1/messaging"
 
 func SetUrl(prod bool, url string) string {
 	if prod {
@@ -18,7 +19,6 @@ func SetUrl(prod bool, url string) string {
 }
 
 // BasicPostClient/1 - Created client will be dealing with
-// json only.
 func EncodedRequest(url, api_key string, data []byte) (*http.Request, error) {
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(data))
 	if err != nil {
