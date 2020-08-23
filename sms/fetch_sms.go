@@ -10,6 +10,9 @@ import (
 )
 
 func (req_data *Request_data) CheckInbox(last_received int) (map[string]interface{}, error) {
+	if req_data.Prod == false {
+		req_data.Username = "sandbox"
+	}
 	inbox := make(map[string]interface{})
 	// !!change appropiately when the parameters come in
 	// https://api.sandbox.africastalking.com/version1/messaging?username=MyAppUsername&lastReceivedId=0
