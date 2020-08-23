@@ -21,7 +21,7 @@ func (req_data *Request_data) CheckInbox(last_received int) (map[string]interfac
 	// !!change the url when the we whether we are in production or nah
 	url := africastalking.SetUrl(req_data.Prod, africastalking.INBOX_URL) + params
 	// !!delete this later
-	fmt.Printf("url:%q", url)
+	fmt.Printf("url:%q\n", url)
 	// url := africastalking.INBOX_URL + params
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
