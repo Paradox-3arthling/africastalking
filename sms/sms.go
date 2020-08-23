@@ -53,6 +53,9 @@ func setDataInt(data *url.Values, val int, key string) {
 
 // Need to confirm that the nos. are valid
 func (req_data *Request_data) ConfirmFields() error {
+	if req_data.Api_key == "" {
+		return fmt.Errorf("`ConfirmFields` got `req_data.Api_key` is blank!")
+	}
 	if req_data.Username == "" {
 		return fmt.Errorf("`ConfirmFields` got `req_data.Username` is blank!")
 	}
@@ -94,7 +97,7 @@ func (req_data *Request_data) SendSMS() (map[string]interface{}, error) {
 	if err != nil {
 		return json_map, fmt.Errorf("'ioutil.ReadAll/1' got the error: %q", err)
 	}
-	fmt.Printf("URL: %q\ndata: %q\n", url, string(data))
+	// fmt.Printf("URL: %q\ndata: %q\n", url, string(data))
 	err = json.Unmarshal(body, &json_map)
 	if err != nil {
 		return json_map, fmt.Errorf("'json.Unmarshal/1' got the error: %q", err)
