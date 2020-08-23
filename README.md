@@ -37,3 +37,6 @@ The import statement for this will be `import "github.com/paradox-3arthling/afri
 	// other field is an error if found.
 	fmt.Printf("Return map: %v", map_resp)
   ```
+
+## Who maintains and can contributes.
+At the moment am the only maintainer and contributer open to help, contact me at floydqaranja@gmail.com 
