@@ -11,6 +11,8 @@ import (
 	"github.com/paradox-3arthling/africastalking"
 )
 
+var client http.Client
+
 // check how `json.Marshal/1` marshals arrays
 type Request_data struct {
 	Prod                 bool
@@ -86,7 +88,7 @@ func (req_data *Request_data) SendSMS() (map[string]interface{}, error) {
 	if err != nil {
 		return json_map, fmt.Errorf("'africastalking.JsonRequest/3' got the error: %q", err)
 	}
-	client := &http.Client{}
+
 	resp, err := client.Do(req)
 	if err != nil {
 		return json_map, fmt.Errorf("'client.Do/1' got the error: %q", err)
