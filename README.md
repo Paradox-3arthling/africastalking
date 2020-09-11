@@ -38,5 +38,8 @@ The import statement for this will be `import "github.com/paradox-3arthling/afri
 	fmt.Printf("Return map: %v", map_resp)
   ```
 
+## WIP
+- Check issues for next feature updates to be done.
+
 ## Who maintains and can contributes.
 At the moment am the only maintainer and contributer open to help, contact me at floydqaranja@gmail.com 
